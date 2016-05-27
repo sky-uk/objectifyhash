@@ -1,14 +1,14 @@
 # coding: utf-8
 require 'monkey_string'
 
-module HashToObj
+module ObjectifyHash
   EXCEPTIONS     = {
       data: Proc.new do | value | value; end
   }
   NULLABLE_KEYS = []
 
   class GenericObject
-    include HashToObj
+    include ObjectifyHash
 
     def initialize hash
       convert_and_define hash
@@ -62,7 +62,7 @@ module HashToObj
   end
 
   def get_new_class name
-    self.class.const_defined?(name.capitalize) ? self.class.const_get(name.capitalize) : self.class.const_set(name.capitalize, HashToObj::GenericObject)
+    self.class.const_defined?(name.capitalize) ? self.class.const_get(name.capitalize) : self.class.const_set(name.capitalize, ObjectifyHash::GenericObject)
   end
 
 

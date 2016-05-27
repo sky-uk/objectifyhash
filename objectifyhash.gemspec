@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'hash_to_obj/version'
+require 'objectifyhash/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "hash_to_obj"
+  spec.name          = "objectifyhash"
   spec.version       = HashToObj::VERSION
   spec.authors       = ["Arthur Silva"]
   spec.email         = ["arthur.silva@sky.uk"]
 
   spec.summary       = %q{This gem allows you to easily turn your hashes into objects}
   spec.description   = %q{This gem allows you to easily turn your hashes into objects, great for dealing with rest api's}
-  spec.homepage      = "https://git.bskyb.com/arthur.silva/hash_to_obj"
+  spec.homepage      = "https://github.com/sky-uk/skystore-contrib-gem-objectifyhash"
   spec.license       = "MIT"
 
 

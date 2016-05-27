@@ -1,14 +1,14 @@
 # coding: utf-8
 require 'minitest/autorun'
 require 'json'
-require_relative File.join('..','lib','hash_to_obj')
-require_relative File.join('..','lib','hash_to_obj', 'hash')
+require_relative File.join('..','lib','objectifyhash')
+require_relative File.join('..','lib','objectifyhash', 'hash')
 
 class A
-  include HashToObj
+  include ObjectifyHash
 
-  HashToObj::EXCEPTIONS.merge!( {duration: Proc.new do 100; end})
-  HashToObj::NULLABLE_KEYS.concat [:type]
+  ObjectifyHash::EXCEPTIONS.merge!( {duration: Proc.new do 100; end})
+  ObjectifyHash::NULLABLE_KEYS.concat [:type]
 
 
 end
