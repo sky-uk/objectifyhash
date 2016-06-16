@@ -1,13 +1,15 @@
 # coding: utf-8
 require 'minitest/autorun'
 require 'json'
-require_relative File.join('..','lib','objectifyhash')
-require_relative File.join('..','lib','objectifyhash', 'hash')
+require_relative File.join('..', 'lib', 'objectifyhash')
+require_relative File.join('..', 'lib', 'objectifyhash', 'hash')
 
 class A
   include ObjectifyHash
 
-  ObjectifyHash::EXCEPTIONS.merge!( {duration: Proc.new do 100; end})
+  ObjectifyHash::EXCEPTIONS.merge!({duration: Proc.new do
+    100;
+  end})
   ObjectifyHash::NULLABLE_KEYS.concat [:type]
 
 
@@ -209,7 +211,6 @@ class Hash2ObjTest < Minitest::Test
     }'
 
 
-
     @hash = JSON.parse a
     @a = A.new
     @a.convert_and_define hash
@@ -217,7 +218,7 @@ class Hash2ObjTest < Minitest::Test
 
 
   def test_basic_nesting_key
-   assert_equal a.content.assetId, hash['content']['assetId']
+    assert_equal a.content.assetId, hash['content']['assetId']
   end
 
   def test_correct_name_space
@@ -229,24 +230,29 @@ class Hash2ObjTest < Minitest::Test
   end
 
   def test_arrays_are_arrays
-    assert a.content.content.contents.is_a?( Array)
+    assert a.content.content.contents.is_a?(Array)
   end
+
   def test_no_list_namespace
-    assert a.content.content.contents.first.is_a?( A::Content::Content::Content)  #notice the missing Contents class
+    assert a.content.content.contents.first.is_a?(A::Content::Content::Content) #notice the missing Contents class
   end
 
   def test_deep_obj_with_arrays
-    assert_equal a.content.content.contents.first.asset.title,  hash['content']['content']['contents'].first['asset']['title']
+    assert_equal a.content.content.contents.first.asset.title, hash['content']['content']['contents'].first['asset']['title']
   end
+
   def test_deep_obj_with_arrays_via_last
-    assert_equal a.content.content.contents.last.asset.title,  hash['content']['content']['contents'].last['asset']['title']
+    assert_equal a.content.content.contents.last.asset.title, hash['content']['content']['contents'].last['asset']['title']
   end
+
   def test_camel_case_name
-    assert_equal a.content.totalLicenses,  hash['content']['totalLicenses']
+    assert_equal a.content.totalLicenses, hash['content']['totalLicenses']
   end
+
   def test_snake_case
-    assert_equal a.content.total_licenses,  hash['content']['totalLicenses']
+    assert_equal a.content.total_licenses, hash['content']['totalLicenses']
   end
+
   def test_custom_nullable_keys
     assert a.content.content.contents.last.type.nil?
   end
@@ -255,4 +261,8 @@ class Hash2ObjTest < Minitest::Test
     assert_equal hash.to_obj.methods(false), a.methods(false)
   end
 
+  def test_setting_value
+    a.content.content.contents.first.asset.title='New title'
+    assert_equal 'New title', a.content.content.contents.first.asset.title
+  end
 end
