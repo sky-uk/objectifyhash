@@ -67,21 +67,8 @@ module ObjectifyHash
 
 
   def set key, value
-    define_singleton_method key.to_sym do
-      value;
-    end
-
-    define_singleton_method key.to_s.snake_case.to_sym do
-      value;
-    end
-
-    define_singleton_method "#{key}=".to_sym do |set_value|
-      value = set_value;
-    end
-
-    define_singleton_method "#{key}=".snake_case.to_sym do |set_value|
-      value = set_value;
-    end
+    self.send(:define_singleton_method, key.to_sym, Proc.new do value; end )
+    self.send(:define_singleton_method, key.to_s.snake_case.to_sym, Proc.new do value; end )
   end
 
   def values_at *args
