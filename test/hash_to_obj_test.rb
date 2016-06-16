@@ -255,4 +255,8 @@ class Hash2ObjTest < Minitest::Test
     assert_equal hash.to_obj.methods(false), a.methods(false)
   end
 
+  def test_setting_value
+    a.content.content.contents.first.asset.title='New title'
+    assert_equal 'New title', a.content.content.contents.first.asset.title
+  end
 end
