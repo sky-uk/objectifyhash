@@ -65,7 +65,6 @@ module ObjectifyHash
     self.class.const_defined?(name.capitalize) ? self.class.const_get(name.capitalize) : self.class.const_set(name.capitalize, ObjectifyHash::GenericObject)
   end
 
-
   def set key, value
     define_singleton_method key.to_sym do
       value;
@@ -77,10 +76,26 @@ module ObjectifyHash
 
     define_singleton_method "#{key}=".to_sym do |set_value|
       value = set_value;
+      update_hash(key, value)
     end
 
     define_singleton_method "#{key}=".snake_case.to_sym do |set_value|
       value = set_value;
+      update_hash(key, value)
+    end
+
+    define_singleton_method :to_h do
+      @original_hash
+    end
+  end
+
+  def update_hash(key_to_update, value_to_update)
+     @original_hash.update(@original_hash) do |key,value|
+      if key.to_sym == key_to_update
+        value = value_to_update
+      else
+        value = value
+      end
     end
   end
 
