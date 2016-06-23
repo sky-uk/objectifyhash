@@ -30,6 +30,8 @@ you can call the method "to_obj" on hashes
 or you can create your on class and include the module HashToObj, you can even setup exceptions and nullable keys.
 See tests for complete use cases.
 
+## More Information
+Please check `/test/hash_to_obj_test.rb` we're going for a testing as documentation approach, if these are not clear, let us known
 
 ## Development
 

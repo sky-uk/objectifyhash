@@ -5,7 +5,7 @@ require 'objectifyhash/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "objectifyhash"
-  spec.version       = HashToObj::VERSION
+  spec.version       = ObjectifyHash::VERSION
   spec.authors       = ["Arthur Silva"]
   spec.email         = ["arthur.silva@sky.uk"]
 
