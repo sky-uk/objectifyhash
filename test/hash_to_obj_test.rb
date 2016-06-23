@@ -255,4 +255,14 @@ class Hash2ObjTest < Minitest::Test
     assert_equal hash.to_obj.methods(false), a.methods(false)
   end
 
+  def test_cloned_obj_is_eq
+    assert_equal @a, @a.clone #dup won't work because it doesn't copy singleton methods made by objectifyhash
+  end
+
+  def test_object_is_different
+    b = ObjectifyHash::GenericObject.new({a: 1, b:2, c: {kunamis: 'frescos'}})
+    assert !(@a == b)
+  end
+
+
 end
