@@ -85,14 +85,14 @@ module ObjectifyHash
       update_hash(key, value)
       save
     end
+  end
 
-    define_singleton_method :to_h do
-      @original_hash
-    end
+  def to_h
+    @original_hash
+  end
 
-    define_singleton_method :save do
-      # Do nothing. It will be override
-    end
+  def save
+    # Do nothing. It will be override
   end
 
   def update_hash(key_to_update, value_to_update)
