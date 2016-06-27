@@ -67,21 +67,21 @@ module ObjectifyHash
 
   def set key, value
     define_singleton_method key.to_sym do
-      value;
+      value
     end
 
     define_singleton_method key.to_s.snake_case.to_sym do
-      value;
+      value
     end
 
     define_singleton_method "#{key}=".to_sym do |set_value|
-      value = set_value;
+      value = set_value
       update_hash(key, value)
       save
     end
 
     define_singleton_method "#{key}=".snake_case.to_sym do |set_value|
-      value = set_value;
+      value = set_value
       update_hash(key, value)
       save
     end
