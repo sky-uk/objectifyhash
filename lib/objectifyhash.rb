@@ -77,16 +77,23 @@ module ObjectifyHash
     define_singleton_method "#{key}=".to_sym do |set_value|
       value = set_value;
       update_hash(key, value)
+      save
     end
 
     define_singleton_method "#{key}=".snake_case.to_sym do |set_value|
       value = set_value;
       update_hash(key, value)
+      save
     end
 
     define_singleton_method :to_h do
       @original_hash
     end
+
+    define_singleton_method :save do
+      # Do nothing. It will be override
+    end
+
 
     define_singleton_method :eql? do | value_to_compare |
       return compare_hash(value_to_compare)
