@@ -93,35 +93,6 @@ module ObjectifyHash
     define_singleton_method :save do
       # Do nothing. It will be override
     end
-
-
-    define_singleton_method :eql? do | value_to_compare |
-      return compare_hash(value_to_compare)
-    end
-
-    define_singleton_method :equal? do | value_to_compare |
-      return compare_hash(value_to_compare)
-    end
-
-    define_singleton_method :== do | value_to_compare |
-      return compare_hash(value_to_compare)
-    end
-
-    define_singleton_method :!= do | value_to_compare |
-      return !compare_hash(value_to_compare)
-    end
-  end
-
-  def compare_hash(value_to_compare)
-    unless value_to_compare.is_a? (ObjectifyHash)
-      return false
-    end
-
-    unless to_h.to_s.eql? value_to_compare.to_h.to_s
-      return false
-    end
-
-    return true
   end
 
   def update_hash(key_to_update, value_to_update)
