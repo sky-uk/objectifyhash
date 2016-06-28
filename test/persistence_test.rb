@@ -1,5 +1,7 @@
 require 'test/unit'
 require '../lib/persistence'
+require_relative File.join('..', 'lib', 'objectifyhash')
+require_relative File.join('..', 'lib', 'objectifyhash', 'hash')
 
 class PersistedDataFromFile
 
@@ -32,17 +34,20 @@ class PersistenceTest < Test::Unit::TestCase
 
   def test_steps(hash_to_object_instance)
 
-    ### Access by .hash_key
+    ### Get by .has_key
+    puts('api_root', hash_to_object_instance.config.api_root)
+
+    ### Set by .hash_key
     hash_to_object_instance.config.api_root='http://%sskystore.com/API/'
 
-    ### Access by [hash_key]
-    hash_to_object_instance.config[:api_root]='https://%sskystore.com/API/'
+    ### Set by [hash_key]
+    #hash_to_object_instance.config[:api_root]='https://%sskystore.com/API/'
 
-    ### Add new key-val
-    hash_to_object_instance.config[:something_new]='Something_New_Value'
+    ### Set new key-val
+    #hash_to_object_instance.config[:something_new]='Something_New_Value'
 
-    ### Add new value to an Existing LIST
-    hash_to_object_instance.config[:full_boxsets].push('New_Boxset_In_List')
+    ### Set new value to an Existing LIST
+    #hash_to_object_instance.config[:full_boxsets].push('New_Boxset_In_List')
 
   end
 
@@ -55,7 +60,7 @@ class PersistenceTest < Test::Unit::TestCase
     #yml.save()                        ###
     filename = yml.get_output_file()
 
-    yml = PersistedDataFromFile.new(filename='example.yml', file_dir='../test/config')
+    yml = PersistedDataFromFile.new(filename=filename, file_dir='../test/config')
     puts(yml.config.to_h)
   end
 end
