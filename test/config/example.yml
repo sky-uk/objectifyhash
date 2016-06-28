@@ -1,0 +1,30 @@
+---
+:some_url: http://www.example.com
+:api_root: https://www.example.com/api/
+:backoffice:
+  :auth:
+    :username: domain\username
+    :password: "p4ssw0rd"
+  :url: https://example.com/bo/
+:test_info:
+  :property_a: 987654321
+  :property_b: 09E589AD-FC0A-4860-B7EF-80D9FBB7C63F
+  :property_c: GENUMKSFO
+  :property_d: 06664B76-5907-44FB-AA7E-737CFF13EBCC
+  :some_info_by_key:
+    :default_aaa_uk_est: F61B4505-9015-42A9-AF2B-89A693F8C21D
+    :default_bbb_uk_est: E0BA9CE5-744D-4E4A-B93A-1C7FF0AA41D2
+    :default_ccc_uk_est: 6025E857-C24D-4900-A2EA-49F3D9B0D3BD
+  :last_update_time: 1452176098
+:guids_by_key:
+  :A: 8764eaab-1148-4b9e-8775-421e4457a11b
+  :B: a22dd295-a1c4-491c-b685-55f5c3760ac2
+  :C: cc0b5d57-676f-4f56-817f-6679d2613eb8
+  :D: 0ab33196-6870-4665-b996-836e7e4a3c63
+  :E: 590a0742-8467-4b8d-a6f9-c32e42b41a36
+- list.element-1
+- list.element-2
+- list.element-3
+:bool_val: true
+:guid_list:
+- 06c2317e-e9f6-4131-84bd-511a368a6c37
