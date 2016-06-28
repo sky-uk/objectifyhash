@@ -23,6 +23,10 @@ class PersistenceTest < Test::Unit::TestCase
     ### Get by .has_key
     puts('api_root', hash_to_object_instance.config.api_root)
 
+
+
+    hash_to_object_instance.config.test_info.property_a= 9191919191919
+    hash_to_object_instance.config.some_url= 'www.batatas.com'
     ### Set by .hash_key
     hash_to_object_instance.config.api_root='http://%sskystore.com/API/'
 
@@ -42,15 +46,18 @@ class PersistenceTest < Test::Unit::TestCase
   def test_load_change_and_save
 
     yml = PersistedHashToObj.new()
-    #yml.save()
+    ### Load pristine data, and modify it
     yml.load('example.yml', file_dir:'../test/config')
     test_steps(yml)                   ### Run test Scenarios
-    yml.save()                        ###
-    filename = yml.get_output_file()
 
-    ####
+
+    #### Load Modified Data
+    filename = yml.get_output_file()
     yml = PersistedHashToObj.new()
     yml.load(filename, file_dir:'../test/config')
     puts(yml.config.to_h)
+
+    #### Check wanted changed
+    #### TODO
   end
 end

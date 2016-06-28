@@ -1,23 +1,17 @@
 # coding: utf-8
 require 'monkey_string'
 
+
 module ObjectifyHash
   EXCEPTIONS     = {
       data: Proc.new do | value | value; end
   }
   NULLABLE_KEYS = []
 
-  class GenericObject
-    include ObjectifyHash
-
-    def initialize hash
-      convert_and_define hash
-    end
-
-  end
 
 
-  def convert_and_define hash
+
+  def convert_and_define hash, parent=nil
     @original_hash = hash
     @original_hash.each do |key, value|
       key = key.to_sym
@@ -28,7 +22,7 @@ module ObjectifyHash
           set key, EXCEPTIONS[ key ].call( value )
         when value.is_a?(Hash)
           klass  = get_new_class key
-          object = klass.new( value )
+          object = klass.new( value, self )
           set key, object
         when value.is_a?(Array)
           set key, objectify_array(value, key)
@@ -53,7 +47,7 @@ module ObjectifyHash
       else
         if elem.is_a? Hash
           klass = get_new_class name.to_s.sub(/s$/, '').to_sym
-          klass.new elem
+          klass.new elem, self
         else
           elem
         end
@@ -62,7 +56,11 @@ module ObjectifyHash
   end
 
   def get_new_class name
-    self.class.const_defined?(name.capitalize) ? self.class.const_get(name.capitalize) : self.class.const_set(name.capitalize, ObjectifyHash::GenericObject)
+    self.class.const_defined?(name.capitalize) ? self.class.const_get(name.capitalize) : self.class.const_set(name.capitalize, get_class_to_create)
+  end
+
+  def get_class_to_create
+    return GenericObject
   end
 
   def set key, value
@@ -91,10 +89,10 @@ module ObjectifyHash
     @original_hash
   end
 
-  def save
-   # Do nothing. It will be override
-    puts()
-  end
+  #def save
+  # # Do nothing. It will be override
+  #  puts()
+  #end
 
   def update_hash(key_to_update, value_to_update)
      @original_hash.update(@original_hash) do |key,value|
@@ -117,6 +115,17 @@ module ObjectifyHash
     $stderr.puts 'DEPRECATION WARNING #[] CALLED ON OBJECT'.bold.red
     raise NameError unless self.respond_to?( val.to_sym )
     self.method( val ).call
+  end
+
+end
+
+
+class GenericObject
+  include ObjectifyHash
+
+  def initialize hash, parent=nil
+    @__parent__ = parent
+    convert_and_define hash, parent=nil
   end
 
 end

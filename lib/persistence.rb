@@ -24,13 +24,15 @@ def generate_random_filename(prefix='', filetype='yml')
 end
 
 
+
 module Persistence
 
   attr_accessor :config
 
-  @config = nil
 
   public
+
+
   def load(filename, random_filename: true, file_dir: '../config', allow_file_writting: true)
     ### This method, can be called, during initialization of the object that uses the Persistence itself.
     ### Persistence itself, will always be supported, just by importing it.
@@ -47,17 +49,24 @@ module Persistence
     load_config_file!(@original_filename)
   end
 
-  def save()          ## TODO Should we hide (set_output_file, and )
-    init_if_needed!
+  def save(config:@config)          ## TODO Should we hide (set_output_file, and )
+    if @__parent__ != nil
+      @__parent__.save
 
-    if @allow_file_writing
-      File.open( @complete_file_path, 'w') do |f|
-        f.write @config.to_h.to_yaml                       ## TODO , check if this work with HashToObject
-      end
     else
-      ## Let's just detect, that someone is trying to write into this file, and it should not (eg. Read Only config)
-      ## This will allow to track & fix those cases faster
-      puts("[PERSISTENCE] WARN: File has not been written!!! File Write is disabled for #{@filename}")
+      init_if_needed!
+
+      if @allow_file_writing
+        puts("Saving in #{@complete_file_path}") if @debug
+        File.open( @complete_file_path, 'w') do |f|
+          val = self.to_h.to_yaml                       ## TODO , check if this work with HashToObject
+          f.write val
+        end
+      else
+        ## Let's just detect, that someone is trying to write into this file, and it should not (eg. Read Only config)
+        ## This will allow to track & fix those cases faster
+        puts("[PERSISTENCE] WARN: File has not been written!!! File Write is disabled for #{@filename}")
+      end
     end
   end
 
@@ -73,18 +82,36 @@ module Persistence
   end
 
 
+  def get_class_to_create()
+    return PersistedHashToObj
+  end
+
+
+  def get_root
+    if @__parent__ == nil
+      return self
+    else
+      return @__parent__.get_root
+    end
+  end
+
   private
   def init_if_needed!
-    @allow_file_writing = true
-    @file_dir  = ''
+    @file_dir   = ''
+    @debug      = true
 
     ## Do we have any output file defined already?
     if @complete_file_path == nil
-      @random_filename = true
+      @random_filename    = true
+      @allow_file_writing = true
       get_file_to_use!(prefix='tmp')
-
-      @config = @config =  ObjectifyHash::GenericObject.new({})
     end
+
+
+    ## TODO restore this later, for Initializations, that do not Load any file
+   # if @config == nil
+   #   @config = @config =  PersistedHashToObj.new({})
+   # end
 
   end
 
@@ -113,16 +140,22 @@ module Persistence
 
   def load_config_file!(filename)
     loaded_yml = YAML.load_file( File.join(@file_dir, filename) )
-    @config      = ObjectifyHash::GenericObject.new(loaded_yml)
+    @config      = PersistedHashToObj.new(loaded_yml)
     return @config
   end
   public
 end
 
 
-class PersistedHashToObj
-  include ObjectifyHash     ## Includes HashToObj facilities
-  include Persistence       ## Implements the save() callback to be used by ObjectifyHash + All the Persistence methods (load, save)
-
+class PersistedHashToObj < GenericObject
+  include ObjectifyHash
+  include Persistence
   attr_accessor :config
+
+  def initialize hash={}, parent=nil
+    super hash, parent=parent
+  end
+
+
+
 end
