@@ -1,19 +1,5 @@
 require 'test/unit'
-require '../lib/persistence'
-require_relative File.join('..', 'lib', 'objectifyhash')
-require_relative File.join('..', 'lib', 'objectifyhash', 'hash')
-
-class PersistedDataFromFile
-
-  attr_accessor :config
-  include PersistedHashToObj
-
-  def initialize(filename, file_dir)
-    load(filename, file_dir:file_dir)   ## @config will be populated
-    puts(@config)
-  end
-end
-
+require_relative File.join('..', 'lib', 'persistence.rb')
 
 
 class PersistenceTest < Test::Unit::TestCase
@@ -55,12 +41,16 @@ class PersistenceTest < Test::Unit::TestCase
   # Fake test
   def test_load_change_and_save
 
-    yml = PersistedDataFromFile.new(filename='example.yml', file_dir='../test/config')
+    yml = PersistedHashToObj.new()
+    #yml.save()
+    yml.load('example.yml', file_dir:'../test/config')
     test_steps(yml)                   ### Run test Scenarios
-    #yml.save()                        ###
+    yml.save()                        ###
     filename = yml.get_output_file()
 
-    yml = PersistedDataFromFile.new(filename=filename, file_dir='../test/config')
+    ####
+    yml = PersistedHashToObj.new()
+    yml.load(filename, file_dir:'../test/config')
     puts(yml.config.to_h)
   end
 end

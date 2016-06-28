@@ -1,6 +1,6 @@
 require 'yaml'
 require 'fileutils'
-require 'objectifyhash'
+require_relative File.join('objectifyhash.rb')
 
 
 
@@ -31,7 +31,7 @@ module Persistence
   @config = nil
 
   public
-  def load(filename, random_filename: true, file_dir:'../config', allow_file_writting: true)
+  def load(filename, random_filename: true, file_dir: '../config', allow_file_writting: true)
     ### This method, can be called, during initialization of the object that uses the Persistence itself.
     ### Persistence itself, will always be supported, just by importing it.
     ### The only thing that changes by using this load(filename), is that an initial state is SET into the object that uses it
@@ -62,7 +62,7 @@ module Persistence
   end
 
 
-  def set_output_file(filename, file_dir='../config')
+  def set_output_file(filename, file_dir)
     @file_dir = file_dir
     @filename = filename
     @complete_file_path = File.join(@file_dir, @filename)           ## Output Filename
@@ -76,6 +76,7 @@ module Persistence
   private
   def init_if_needed!
     @allow_file_writing = true
+    @file_dir  = ''
 
     ## Do we have any output file defined already?
     if @complete_file_path == nil
@@ -91,7 +92,10 @@ module Persistence
   def get_file_to_use!(prefix = '')
     ### sets @filename And @complete_file_path
 
-    @file_dir = File.join( File.dirname(__FILE__), @file_dir)
+    if @file_dir == nil or @file_dir.strip() == ''
+      @file_dir = File.join( File.dirname(__FILE__), '..', 'tmp')
+      @random_filename = true
+    end
 
     if @random_filename
       @filename   = generate_random_filename(prefix=prefix)
@@ -99,7 +103,8 @@ module Persistence
       @filename   = @original_filename
     end
 
-    @complete_original_file_path  = File.join(@original_filename, @filename)  ## Input Filename
+
+    @complete_original_file_path  = File.join(@original_filename, @filename) if @original_filename   ## Input Filename
     @complete_file_path           = set_output_file(@filename, @file_dir)
 
 
@@ -114,8 +119,10 @@ module Persistence
   public
 end
 
-module PersistedHashToObj
-  include ObjectifyHash     ## Includes HashToObj facilities
-  include Persistence       ## Implements the callback to be used by HashToObj + All the Persistence methods (load, save)
 
+class PersistedHashToObj
+  include ObjectifyHash     ## Includes HashToObj facilities
+  include Persistence       ## Implements the save() callback to be used by ObjectifyHash + All the Persistence methods (load, save)
+
+  attr_accessor :config
 end

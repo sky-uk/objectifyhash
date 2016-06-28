@@ -77,13 +77,13 @@ module ObjectifyHash
     define_singleton_method "#{key}=".to_sym do |set_value|
       value = set_value
       update_hash(key, value)
-      save
+      save if respond_to? 'save'
     end
 
     define_singleton_method "#{key}=".snake_case.to_sym do |set_value|
       value = set_value
       update_hash(key, value)
-      save
+      save if respond_to? 'save'
     end
   end
 
@@ -92,7 +92,8 @@ module ObjectifyHash
   end
 
   def save
-    # Do nothing. It will be override
+   # Do nothing. It will be override
+    puts()
   end
 
   def update_hash(key_to_update, value_to_update)
