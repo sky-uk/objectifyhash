@@ -264,5 +264,11 @@ class Hash2ObjTest < Minitest::Test
     assert !(@a == b)
   end
 
+  def test_to_h
+    a      = {a: 1, b:{c: 2}, d: [1,3,4,[{z:1, y:[1]}]]}
+    object = a.to_obj
+    assert_equal a, object.to_h
+  end
+
 
 end

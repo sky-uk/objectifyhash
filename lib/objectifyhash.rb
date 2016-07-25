@@ -91,7 +91,7 @@ module ObjectifyHash
 
   #retro bunker compatibility
   def [] val
-    $stderr.puts 'DEPRECATION WARNING #[] CALLED ON OBJECT'.bold.red
+    $stderr.puts 'DEPRECATION WARNING #[] CALLED ON OBJECT'
     raise NameError unless self.respond_to?( val.to_sym )
     self.method( val ).call
   end
@@ -103,6 +103,37 @@ module ObjectifyHash
     end
     return methods
   end
+
+  def to_h
+    h = {}
+    values_to_compare.each do |m|
+      if self.method( m ).().nil? and NULLABLE_KEYS.include?( m )
+        next
+      end
+      if self.method( m ).().respond_to? :values_to_compare
+        h[ m.to_sym ] = self.method( m ).().to_h
+      elsif self.method( m ).().is_a? Array
+        h[ m.to_sym ] = un_objectify_array( self.method( m ).() )
+      else
+        h[ m.to_sym ] = self.method( m ).()
+      end
+    end
+    return h
+  end
+
+  private
+    def un_objectify_array array
+      array.map do |v|
+        if v.is_a? Array
+          un_objectify_array v
+        elsif v.respond_to? :values_to_compare
+          v.to_h
+        else
+          v
+        end
+      end
+    end
+
 
 end
 
