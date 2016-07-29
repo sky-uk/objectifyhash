@@ -3,6 +3,7 @@ require 'monkey_string'
 
 module ObjectifyHash
   alias_method :eql?, :==
+  attr_accessor :values_to_compare
 
   EXCEPTIONS     = {
       data: Proc.new do | value | value; end
@@ -69,8 +70,9 @@ module ObjectifyHash
 
 
   def set key, value
+    @values_to_compare||=[]
+    @values_to_compare.push key
     self.send(:define_singleton_method, key.to_sym, Proc.new do value; end )
-    self.send(:define_singleton_method, key.to_s.snake_case.to_sym, Proc.new do value; end )
   end
 
   def values_at *args
@@ -79,10 +81,16 @@ module ObjectifyHash
     end
   end
 
+  def ignore_equal key = nil
+    @ignore_equal||=[]
+    @ignore_equal.push key if key
+    @ignore_equal
+  end
+
   def == other
     return false unless other.respond_to? :values_to_compare
     return false unless self.values_to_compare - other.values_to_compare == [] #should not use == cuz arrays can have different orders
-    self.values_to_compare.each do |value|
+    (self.values_to_compare - ignore_equal ).each do |value|
       return false unless self.method(value).() == other.method(value).()
     end
     return true
@@ -94,14 +102,6 @@ module ObjectifyHash
     $stderr.puts 'DEPRECATION WARNING #[] CALLED ON OBJECT'
     raise NameError unless self.respond_to?( val.to_sym )
     self.method( val ).call
-  end
-
-  def values_to_compare
-    methods = []
-    self.public_methods(false).each do |method|
-      methods.push method if self.method(method).arity == 0
-    end
-    return methods
   end
 
   def to_h
