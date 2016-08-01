@@ -19,8 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'monkey_string'
-
   spec.add_development_dependency "json", '~> 1.8'
   spec.add_development_dependency "minitest", '~> 5.8'
 end

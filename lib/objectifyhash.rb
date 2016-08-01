@@ -1,5 +1,4 @@
 # coding: utf-8
-require 'monkey_string'
 
 module ObjectifyHash
   alias_method :eql?, :==
