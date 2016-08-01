@@ -278,5 +278,8 @@ class Hash2ObjTest < Minitest::Test
     assert_equal a, object.to_h
   end
 
+  def test_nil_if_does_not_have
+    assert_nil @a.eyjafjallajökull
+  end
 
 end

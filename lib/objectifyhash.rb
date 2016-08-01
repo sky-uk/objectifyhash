@@ -96,6 +96,11 @@ module ObjectifyHash
   end
 
 
+  def method_missing m, *args, &block
+    super m, *args, &block if args.length > 0 or block_given?
+    nil
+  end
+
   #retro bunker compatibility
   def [] val
     $stderr.puts 'DEPRECATION WARNING #[] CALLED ON OBJECT'
