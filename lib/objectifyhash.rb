@@ -125,18 +125,24 @@ module ObjectifyHash
     return h
   end
 
+  def empty?
+    self.values_to_compare.empty?
+  end
+
   private
     def un_objectify_array array
-      array.map do |v|
-        if v.is_a? Array
-          un_objectify_array v
-        elsif v.respond_to? :values_to_compare
-          v.to_h
-        else
-          v
-        end
+    array.map do |v|
+      if v.is_a? Array
+        un_objectify_array v
+      elsif v.respond_to? :values_to_compare
+        v.to_h
+      else
+        v
       end
     end
+  end
+
+
 
 
 end

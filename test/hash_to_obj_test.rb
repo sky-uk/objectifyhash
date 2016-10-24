@@ -8,7 +8,6 @@ class A
   include ObjectifyHash
 
   ObjectifyHash::EXCEPTIONS.merge!( {duration: Proc.new do 100; end})
-  ObjectifyHash::NULLABLE_KEYS.concat [:type]
 
 
 end
@@ -247,7 +246,9 @@ class Hash2ObjTest < Minitest::Test
 
 
   def test_custom_nullable_keys
-    assert a.content.content.contents.last.type.nil?
+    ObjectifyHash::NULLABLE_KEYS.concat [:type]
+    b = ObjectifyHash::GenericObject.new a.to_h
+    assert b.content.content.contents.last.type.nil?
   end
 
   def test_to_obj
@@ -280,6 +281,14 @@ class Hash2ObjTest < Minitest::Test
 
   def test_nil_if_does_not_have
     assert_nil @a.eyjafjallajökull
+  end
+  def test_not_empty
+    assert !(a.empty?)
+  end
+
+  def test_is_empty
+    h = ObjectifyHash::GenericObject.new({})
+    assert h.empty?
   end
 
 end
