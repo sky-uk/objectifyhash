@@ -246,8 +246,9 @@ class Hash2ObjTest < Minitest::Test
 
 
   def test_custom_nullable_keys
+    c = a.to_h
     ObjectifyHash::NULLABLE_KEYS.concat [:type]
-    b = ObjectifyHash::GenericObject.new a.to_h
+    b = ObjectifyHash::GenericObject.new c
     assert b.content.content.contents.last.type.nil?
   end
 
@@ -287,6 +288,7 @@ class Hash2ObjTest < Minitest::Test
   end
 
   def test_is_empty
+    ObjectifyHash::NULLABLE_KEYS.clear
     h = ObjectifyHash::GenericObject.new({})
     assert h.empty?
   end

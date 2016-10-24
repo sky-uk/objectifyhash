@@ -21,6 +21,7 @@ module ObjectifyHash
 
   def convert_and_define hash
     @original_hash = hash
+    @values_to_compare||=[]
     @original_hash.each do |key, value|
       key = key.to_sym
       case
@@ -69,7 +70,6 @@ module ObjectifyHash
 
 
   def set key, value
-    @values_to_compare||=[]
     @values_to_compare.push key
     self.send(:define_singleton_method, key.to_sym, Proc.new do value; end )
   end
@@ -111,6 +111,7 @@ module ObjectifyHash
   def to_h
     h = {}
     values_to_compare.each do |m|
+      puts m.to_s
       if self.method( m ).().nil? and NULLABLE_KEYS.include?( m )
         next
       end
