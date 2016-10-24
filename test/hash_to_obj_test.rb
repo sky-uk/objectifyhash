@@ -244,9 +244,8 @@ class Hash2ObjTest < Minitest::Test
   def test_camel_case_name
     assert_equal a.content.totalLicenses,  hash['content']['totalLicenses']
   end
-  def test_snake_case
-    assert_equal a.content.total_licenses,  hash['content']['totalLicenses']
-  end
+
+
   def test_custom_nullable_keys
     assert a.content.content.contents.last.type.nil?
   end
@@ -264,5 +263,23 @@ class Hash2ObjTest < Minitest::Test
     assert !(@a == b)
   end
 
+  def test_can_ignore_some_fields
+    b = ObjectifyHash::GenericObject.new({a: 1, b:2, c: {kunamis: 'frescos'}})
+    c = ObjectifyHash::GenericObject.new({a: 1, b:2, c: {kunamis: 'frescos'}})
+
+    b.ignore_equal :c
+
+    assert_equal b,c
+  end
+
+  def test_to_h
+    a      = {a: 1, b:{c: 2}, d: [1,3,4,[{z:1, y:[1]}]]}
+    object = a.to_obj
+    assert_equal a, object.to_h
+  end
+
+  def test_nil_if_does_not_have
+    assert_nil @a.eyjafjallajökull
+  end
 
 end
