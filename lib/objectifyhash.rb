@@ -21,6 +21,7 @@ module ObjectifyHash
 
   def convert_and_define hash
     @original_hash = hash
+    @values_to_compare||=[]
     @original_hash.each do |key, value|
       key = key.to_sym
       case
@@ -69,7 +70,6 @@ module ObjectifyHash
 
 
   def set key, value
-    @values_to_compare||=[]
     @values_to_compare.push key
     self.send(:define_singleton_method, key.to_sym, Proc.new do value; end )
   end
@@ -125,18 +125,24 @@ module ObjectifyHash
     return h
   end
 
+  def empty?
+    self.values_to_compare.empty?
+  end
+
   private
     def un_objectify_array array
-      array.map do |v|
-        if v.is_a? Array
-          un_objectify_array v
-        elsif v.respond_to? :values_to_compare
-          v.to_h
-        else
-          v
-        end
+    array.map do |v|
+      if v.is_a? Array
+        un_objectify_array v
+      elsif v.respond_to? :values_to_compare
+        v.to_h
+      else
+        v
       end
     end
+  end
+
+
 
 
 end
