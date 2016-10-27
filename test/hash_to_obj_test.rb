@@ -54,7 +54,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/catalog/assets/11eb97d3-c8ee-4502-a9dd-410c8b4dd66a/back-to-the-future",
-    "method": "GET",
     "needsAuthentication": false
     },
     {
@@ -81,7 +80,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/catalog/assets/86b39480-87e6-4a99-891a-563fb780871b/back-to-the-future",
-    "method": "GET",
     "needsAuthentication": false
     },
     {
@@ -98,7 +96,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "videoOptions",
     "href": "https://qa.skystore.com/api/webP3/v2/user/entitlements/fa879cad-8753-4040-8702-fd0937eeb7f4/86b39480-87e6-4a99-891a-563fb780871b/video/options",
-    "method": "GET",
     "needsAuthentication": true
     }
     ]
@@ -108,7 +105,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/user/entitlements/fa879cad-8753-4040-8702-fd0937eeb7f4/11eb97d3-c8ee-4502-a9dd-410c8b4dd66a",
-    "method": "GET",
     "needsAuthentication": true
     }
     ]
@@ -131,7 +127,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/catalog/assets/11eb97d3-c8ee-4502-a9dd-410c8b4dd66a/back-to-the-future",
-    "method": "GET",
     "needsAuthentication": false
     },
     {
@@ -158,8 +153,7 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/catalog/assets/86b39480-87e6-4a99-891a-563fb780871b/back-to-the-future",
-    "method": "GET",
-    "needsAuthentication": false
+        "needsAuthentication": false
     },
     {
     "rel": "image",
@@ -175,8 +169,7 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "videoOptions",
     "href": "https://qa.skystore.com/api/webP3/v2/user/entitlements/fa879cad-8753-4040-8702-fd0937eeb7f4/86b39480-87e6-4a99-891a-563fb780871b/video/options",
-    "method": "GET",
-    "needsAuthentication": true
+        "needsAuthentication": true
     }
     ]
     }
@@ -185,7 +178,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/user/entitlements/fa879cad-8753-4040-8702-fd0937eeb7f4/11eb97d3-c8ee-4502-a9dd-410c8b4dd66a",
-    "method": "GET",
     "needsAuthentication": true
     }
     ]
@@ -197,7 +189,6 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "deviceStatus",
     "href": "https://qa.skystore.com/api/webP3/v2/user/devices/status",
-    "method": "GET",
     "needsAuthentication": true
     }
     ]
@@ -284,7 +275,7 @@ class Hash2ObjTest < Minitest::Test
     assert_nil @a.eyjafjallajökull
   end
   def test_not_empty
-    assert !(a.empty?)
+    refute(a.empty?)
   end
 
   def test_is_empty

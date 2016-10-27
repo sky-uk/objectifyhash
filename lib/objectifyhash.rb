@@ -111,7 +111,6 @@ module ObjectifyHash
   def to_h
     h = {}
     values_to_compare.each do |m|
-      puts m.to_s
       if self.method( m ).().nil? and NULLABLE_KEYS.include?( m )
         next
       end

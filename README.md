@@ -9,6 +9,9 @@ obj.b.c #=> 2
 ```
 It deals well with nested arrays as well.
 
+##New in 2.2
+#empty? method returns true if the objected was made from an empty hash
+
 ## Installation
 
 Add this line to your application's Gemfile:
