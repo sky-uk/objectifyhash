@@ -54,7 +54,8 @@ class Hash2ObjTest < Minitest::Test
     {
     "rel": "self",
     "href": "https://qa.skystore.com/api/webP3/v2/catalog/assets/11eb97d3-c8ee-4502-a9dd-410c8b4dd66a/back-to-the-future",
-    "needsAuthentication": false
+    "needsAuthentication": false,
+    "method": "GET"
     },
     {
     "rel": "image",
@@ -282,6 +283,10 @@ class Hash2ObjTest < Minitest::Test
     ObjectifyHash::NULLABLE_KEYS.clear
     h = ObjectifyHash::GenericObject.new({})
     assert h.empty?
+  end
+
+  def test_method_to_verb
+    assert_equal @a.content.content.contents.first.asset.links.first.verb, 'GET'
   end
 
 end
