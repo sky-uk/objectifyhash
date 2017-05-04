@@ -19,6 +19,7 @@ class Hash2ObjTest < Minitest::Test
   def setup
     a = '{
     "content": {
+    "class": "batatas",
     "assetId": "e473a2f7-dc12-42d3-9933-fd5bd67a32e0",
     "totalLicenses": 10,
     "type": "EST",
@@ -274,8 +275,13 @@ class Hash2ObjTest < Minitest::Test
   def test_nil_if_does_not_have
     assert_nil @a.eyjafjallajökull
   end
+
   def test_not_empty
     refute(a.empty?)
+  end
+
+  def test_convert_class_to_klass
+    assert_equal 'batatas', a.content.klass
   end
 
   def test_is_empty

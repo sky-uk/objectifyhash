@@ -23,10 +23,13 @@ module ObjectifyHash
     @original_hash = hash
     @values_to_compare||=[]
     @original_hash.each do |key, value|
+      key = 'klass' if key == 'class'
       key = key.to_sym
       case
         when key == :id
           set :guid, value
+        when key == :method
+          set :verb, value
         when EXCEPTIONS.key?( key )
           set key, EXCEPTIONS[ key ].call( value )
         when value.is_a?(Hash)
