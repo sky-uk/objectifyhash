@@ -34,7 +34,9 @@ module ObjectifyHash
           set key, EXCEPTIONS[ key ].call( value )
         when value.is_a?(Hash)
           klass  = get_new_class key
+          # puts "Going to instanciate class based on #{key}"
           object = klass.new( value )
+          # puts 'success'
           set key, object
         when value.is_a?(Array)
           set key, objectify_array(value, key)
@@ -68,7 +70,10 @@ module ObjectifyHash
   end
 
   def get_new_class name
-    self.class.const_defined?(name.capitalize) ? self.class.const_get(name.capitalize) : self.class.const_set(name.capitalize, ObjectifyHash::GenericObject)
+    name = "#{name.capitalize}_".to_sym if Object.constants.include? name.capitalize.to_sym
+    self.class.const_defined?(name.capitalize) ?
+        self.class.const_get(name.capitalize) :
+        self.class.const_set(name.capitalize, ObjectifyHash::GenericObject)
   end
 
 
