@@ -78,8 +78,9 @@ module ObjectifyHash
 
 
   def set key, value
-    @values_to_compare.push key
-    self.send(:define_singleton_method, key.to_sym, Proc.new do value; end )
+    method_name = Object.instance_methods.include?( key ) ? :"_#{key}_" : key.to_sym
+    @values_to_compare.push method_name
+    self.__send__(:define_singleton_method, method_name, Proc.new do value; end )
   end
 
   def values_at *args

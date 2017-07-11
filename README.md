@@ -33,6 +33,16 @@ you can call the method "to_obj" on hashes
 or you can create your on class and include the module HashToObj, you can even setup exceptions and nullable keys.
 See tests for complete use cases.
 
+## Gotchas
+There's two situations which can have unexpected resutls:
+### When the resulting namespace conflicts with a base constant
+For example, your hash has a key name "file", this would result on a constant "File", but in the interest of now having a
+conflict with the base one, it generates "File_"
+### When the resulting method is inherited from BasicObject
+if your hash has a key such as "send" this would overwrite "send" method which all object have, so it will create "_send_" instead.
+Please refer to `/test/hash_to_obj_test.rb` for more information
+
+
 ## More Information
 Please check `/test/hash_to_obj_test.rb` we're going for a testing as documentation approach, if these are not clear, let us known
 

@@ -299,4 +299,10 @@ class Hash2ObjTest < Minitest::Test
     assert o.details.files.first.is_a? ObjectifyHash::GenericObject::File_
   end
 
+  def test_circuvent_preexisting_methods
+    h = {send:{define_singleton_method: 1}}
+    o = ObjectifyHash::GenericObject.new(h)
+    assert_equal 1, o._send_._define_singleton_method_
+  end
+
 end
