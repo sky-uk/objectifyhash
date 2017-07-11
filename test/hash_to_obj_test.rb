@@ -290,4 +290,13 @@ class Hash2ObjTest < Minitest::Test
     assert h.empty?
   end
 
+  def test_allows_top_level_constants
+    h = {details: {files: [{name:'file A'}]}, process: '31B'}
+    o = ObjectifyHash::GenericObject.new(h)
+    assert_equal( {name:'file A'},  o.details.files.first.to_h)
+    assert_equal '31B',  o.process
+    #caviat
+    assert o.details.files.first.is_a? ObjectifyHash::GenericObject::File_
+  end
+
 end
