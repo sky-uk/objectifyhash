@@ -1,6 +1,8 @@
 #ObjectifyHash
+
 This gem will allow you to turn ugly, bracket-hate inducing nested hashes into pretty objects.
 Particularly usefull when dealing with REST api's
+
 ##Example
 ```
 obj = {a:1, b:{c:2}}.to_obj
@@ -10,7 +12,10 @@ obj.b.c #=> 2
 It deals well with nested arrays as well.
 
 ##New in 2.2
-#empty? method returns true if the objected was made from an empty hash
+
+#empty? 
+
+method returns true if the objected was made from an empty hash
 
 ## Installation
 
