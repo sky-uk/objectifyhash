@@ -68,7 +68,7 @@ See License.txt
 
 
 ## Maintainers
-awls99
+[awls99](https://github.com/awls99)
 
 ## Motivation
 Like most OSS, the motivation for the creation of this little gem was the fact that we had the need to do this, but there was nothing that did quite that out of the box, so we made our own.
