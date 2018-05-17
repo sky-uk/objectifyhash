@@ -305,4 +305,10 @@ class Hash2ObjTest < Minitest::Test
     assert_equal 1, o._send_._define_singleton_method_
   end
 
+  def test_underscored_named_objects
+    h = {something: {'_links'.to_sym => {href: 'https://google.com'}}}
+    o = ObjectifyHash::GenericObject.new(h)
+    assert_equal 'https://google.com', o.something._links.href
+  end
+
 end

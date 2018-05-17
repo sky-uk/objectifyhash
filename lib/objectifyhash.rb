@@ -71,6 +71,7 @@ module ObjectifyHash
 
   def get_new_class name
     name = "#{name.capitalize}_".to_sym if Object.constants.include? name.capitalize.to_sym
+    name = name.to_s.sub(/^_/, '').to_sym
     self.class.const_defined?(name.capitalize) ?
         self.class.const_get(name.capitalize) :
         self.class.const_set(name.capitalize, ObjectifyHash::GenericObject)
