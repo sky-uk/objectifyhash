@@ -1,4 +1,5 @@
 # coding: utf-8
+require_relative 'objectifyhash/hash'
 
 module ObjectifyHash
   alias_method :eql?, :==

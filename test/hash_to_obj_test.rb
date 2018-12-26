@@ -2,7 +2,6 @@
 require 'minitest/autorun'
 require 'json'
 require_relative File.join('..','lib','objectifyhash')
-require_relative File.join('..','lib','objectifyhash', 'hash')
 
 class A
   include ObjectifyHash
